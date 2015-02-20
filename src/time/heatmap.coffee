@@ -213,7 +213,9 @@ class Epoch.Time.Heatmap extends Epoch.Time.Plot
       continue unless entry.buckets[bucket]?
       total += entry.buckets[bucket]
 
-    for own i, entry of entries
+    #ember hack
+    #for own i, entry of entries
+    for entry,i in entries
       if entry.buckets[bucket]?
         value = entry.buckets[bucket]|0
       else

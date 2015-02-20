@@ -147,7 +147,9 @@ class Epoch.Time.Plot extends Epoch.Chart.Canvas
   # to that of the historySize defined in the chart's options.
   _annotateLayers: (prepared) ->
     data = []
-    for own i, layer of prepared
+    #hack to work around ember's enumarable __super
+    #for own i, layer of prepared
+    for layer,i in prepared
       copy = Epoch.Util.copy(layer)
       start = Math.max(0, layer.values.length - @options.historySize)
       copy.values = layer.values.slice(start)
@@ -352,7 +354,10 @@ class Epoch.Time.Plot extends Epoch.Chart.Canvas
   _shift: ->
     @trigger 'before:shift'
     entry = @_queue.shift()
-    layer.values.push(entry[i]) for own i, layer of @data
+    #ember hack
+    #layer.values.push(entry[i]) for own i, layer of @data
+    for layer, i in @data
+      layer.values.push(entry[i])
     @_updateTicks(entry[0].time)
     @_transitionRangeAxes()
     @trigger 'after:shift'
